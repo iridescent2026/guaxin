@@ -2,6 +2,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
 import type { ApiResponse, Video } from '@/types';
 
+/** 安全解析 JSON 字符串，失败时返回 fallback */
+function safeParseJSON<T>(value: string, fallback: T): T {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
 interface RandomVideoResponse {
   video: Video;
 }
@@ -57,7 +66,7 @@ export default async function handler(
       videoUrl: record.videoUrl,
       platform: record.platform as any,
       category: record.category as any,
-      tags: record.tags,
+      tags: safeParseJSON<string[]>(record.tags, []),
       sortOrder: record.sortOrder,
       createdAt: record.createdAt.toISOString(),
     };

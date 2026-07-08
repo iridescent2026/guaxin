@@ -2,6 +2,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
 import type { ApiResponse, Character } from '@/types';
 
+/** 安全解析 JSON 字符串，失败时返回 fallback */
+function safeParseJSON<T>(value: string, fallback: T): T {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
+
 interface CharactersResponse {
   items: Character[];
 }
@@ -30,7 +39,7 @@ export default async function handler(
       avatar: record.avatar || undefined,
       personality: record.personality,
       promptKey: record.promptKey,
-      tags: record.tags,
+      tags: safeParseJSON<string[]>(record.tags, []),
     }));
 
     return res.status(200).json({

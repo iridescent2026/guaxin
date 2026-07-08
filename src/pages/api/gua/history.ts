@@ -1,6 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
-import type { ApiResponse, Gua } from '@/types';
+import type { ApiResponse, Gua, YaoLine } from '@/types';
+
+/** 安全解析 JSON 字符串，失败时返回 fallback */
+function safeParseJSON<T>(value: string, fallback: T): T {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
 
 interface HistoryResponse {
   items: Gua[];
@@ -48,7 +57,7 @@ export default async function handler(
       userId: record.userId || undefined,
       question: record.question,
       mood: record.mood as any,
-      lines: record.lines as any,
+      lines: safeParseJSON<YaoLine[]>(record.lines, []),
       guaName: record.guaName,
       guaCode: record.guaCode,
       interpretation: record.interpretation || undefined,

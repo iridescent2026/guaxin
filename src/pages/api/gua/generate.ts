@@ -2,7 +2,16 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '@/lib/db';
 import { generateGua } from '@/lib/gua-utils';
 import { sanitizeInput, validateLength } from '@/lib/safety';
-import type { ApiResponse, Gua, GenerateGuaRequest } from '@/types';
+import type { ApiResponse, Gua, GenerateGuaRequest, YaoLine } from '@/types';
+
+/** 安全解析 JSON 字符串，失败时返回 fallback */
+function safeParseJSON<T>(value: string, fallback: T): T {
+  try {
+    return JSON.parse(value) as T;
+  } catch {
+    return fallback;
+  }
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,13 +45,13 @@ export default async function handler(
     // 生成六爻
     const { lines, guaCode, guaName } = generateGua();
 
-    // 存入数据库
+    // 存入数据库（lines 数组需序列化为 JSON 字符串）
     const record = await prisma.guaRecord.create({
       data: {
         userId: userId || null,
         question: cleanQuestion,
         mood,
-        lines: lines as unknown as any,
+        lines: JSON.stringify(lines),
         guaName,
         guaCode,
       },
@@ -53,7 +62,7 @@ export default async function handler(
       userId: record.userId || undefined,
       question: record.question,
       mood: record.mood as any,
-      lines: record.lines as any,
+      lines: safeParseJSON<YaoLine[]>(record.lines, lines),
       guaName: record.guaName,
       guaCode: record.guaCode,
       createdAt: record.createdAt.toISOString(),

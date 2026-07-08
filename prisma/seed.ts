@@ -14,15 +14,23 @@ async function main() {
       update: {
         name: char.name,
         title: char.title,
-        personality: char.personality,
-        tags: char.tags,
+        personality: typeof char.personality === 'string'
+          ? char.personality
+          : JSON.stringify(char.personality),
+        tags: Array.isArray(char.tags)
+          ? JSON.stringify(char.tags)
+          : char.tags,
       },
       create: {
         name: char.name,
         title: char.title,
-        personality: char.personality,
+        personality: typeof char.personality === 'string'
+          ? char.personality
+          : JSON.stringify(char.personality),
         promptKey: char.promptKey,
-        tags: char.tags,
+        tags: Array.isArray(char.tags)
+          ? JSON.stringify(char.tags)
+          : char.tags,
         sortOrder: char.promptKey === 'gentle_senior' ? 0
           : char.promptKey === 'rational_roommate' ? 1
           : 2,
@@ -81,10 +89,23 @@ async function main() {
   ];
 
   for (const video of sampleVideos) {
-    await prisma.video.createMany({
-      data: video,
-      skipDuplicates: true,
-    });
+    try {
+      await prisma.video.create({
+        data: {
+          title: video.title,
+          coverUrl: video.coverUrl,
+          videoUrl: video.videoUrl,
+          platform: video.platform,
+          category: video.category,
+          tags: Array.isArray(video.tags)
+            ? JSON.stringify(video.tags)
+            : video.tags,
+          sortOrder: video.sortOrder,
+        },
+      });
+    } catch {
+      // 记录已存在，跳过
+    }
   }
   console.log(`✅ 已创建 ${sampleVideos.length} 条示例视频`);
 

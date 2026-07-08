@@ -30,7 +30,6 @@ const features = [
 
 const hotlineItems = [
   { label: '全国24小时心理危机干预热线', number: '400-161-9995' },
-  { label: '希望24热线', number: '400-161-9995' },
   { label: '北京心理危机研究与干预中心', number: '010-82951332' },
   { label: '生命热线', number: '400-821-1215' },
 ];

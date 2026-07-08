@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model User {
@@ -22,12 +22,12 @@ model User {
 model GuaRecord {
   id             String   @id @default(uuid())
   userId         String?  @map("user_id")
-  question       String   @db.VarChar(200)
+  question       String
   mood           String
-  lines          Json     // [{ position: number, value: number }]
+  lines          String   // JSON string
   guaName        String   @map("gua_name")
-  guaCode        String   @map("gua_code") // 如 "101010"
-  interpretation String?  @db.Text
+  guaCode        String   @map("gua_code")
+  interpretation String?
   createdAt      DateTime @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id])
@@ -39,14 +39,13 @@ model ChatMessage {
   id        String   @id @default(uuid())
   userId    String?  @map("user_id")
   roleId    String   @map("role_id")
-  content   String   @db.Text
-  sender    String   // "user" | "assistant"
+  content   String
+  sender    String
   isCrisis  Boolean  @default(false) @map("is_crisis")
   createdAt DateTime @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id])
 
-  @@index([userId, roleId])
   @@map("chat_messages")
 }
 
@@ -55,9 +54,9 @@ model Character {
   name        String
   title       String
   avatar      String?
-  personality String   @db.Text
+  personality String
   promptKey   String   @unique @map("prompt_key")
-  tags        String[]
+  tags        String
   sortOrder   Int      @default(0) @map("sort_order")
   createdAt   DateTime @default(now()) @map("created_at")
 
@@ -69,12 +68,11 @@ model Video {
   title     String
   coverUrl  String   @map("cover_url")
   videoUrl  String   @map("video_url")
-  platform  String   // "bilibili" | "douyin" | "xiaohongshu" | "youtube" | "other"
-  category  String   // "stress_relief" | "animal" | "campus" | "funny" | "healing" | "random"
-  tags      String[]
+  platform  String
+  category  String
+  tags      String
   sortOrder Int      @default(0) @map("sort_order")
   createdAt DateTime @default(now()) @map("created_at")
 
-  @@index([category])
   @@map("videos")
 }
