@@ -48,6 +48,7 @@ export interface Gua {
 export interface GuaInterpretation {
   guaName: string;
   guaMeaning: string;
+  funInterpretation?: string;
   interpretation: string;
   psychologyAdvice: string;
   actionAdvice: string;

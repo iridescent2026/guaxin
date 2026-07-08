@@ -448,21 +448,32 @@ export default function GuaPage() {
               </p>
             </div>
 
-            {/* 卦象含义 */}
-            {interpretation.interpretation && (
+            {/* 卦象解读 */}
+            {interpretation.guaMeaning && (
               <div className="interpretation-section fade-in-up">
                 <h3>{'\u{1F4D6}'} 卦象解读</h3>
-                <p>{interpretation.interpretation}</p>
+                <p>{interpretation.guaMeaning}</p>
               </div>
             )}
 
-            {/* 趣味解读（包含在 interpretation 中） */}
-            {interpretation.interpretation && (
+            {/* 趣味解读 */}
+            {interpretation.funInterpretation && (
               <div
                 className="interpretation-section fade-in-up"
                 style={{ animationDelay: '0.1s' }}
               >
                 <h3>{'\u{1F604}'} 趣味解读</h3>
+                <p>{interpretation.funInterpretation}</p>
+              </div>
+            )}
+
+            {/* 心理解读 */}
+            {interpretation.interpretation && (
+              <div
+                className="interpretation-section fade-in-up"
+                style={{ animationDelay: '0.2s' }}
+              >
+                <h3>{'\u{1F9E0}'} 心理解读</h3>
                 <p>{interpretation.interpretation}</p>
               </div>
             )}
@@ -471,9 +482,9 @@ export default function GuaPage() {
             {interpretation.psychologyAdvice && (
               <div
                 className="interpretation-section fade-in-up"
-                style={{ animationDelay: '0.2s' }}
+                style={{ animationDelay: '0.3s' }}
               >
-                <h3>{'\u{1F9E0}'} 心理建议</h3>
+                <h3>{'\u{1F4A1}'} 心理建议</h3>
                 <p>{interpretation.psychologyAdvice}</p>
               </div>
             )}
@@ -482,7 +493,7 @@ export default function GuaPage() {
             {interpretation.actionAdvice && (
               <div
                 className="interpretation-section fade-in-up"
-                style={{ animationDelay: '0.3s' }}
+                style={{ animationDelay: '0.4s' }}
               >
                 <h3>{'\u{1F3AF}'} 行动建议</h3>
                 <p>{interpretation.actionAdvice}</p>

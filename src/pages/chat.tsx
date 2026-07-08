@@ -5,41 +5,41 @@ import type { Character, ChatHistoryItem, ChatReply, CrisisResources } from '@/t
 const CHARACTERS: (Character & { description: string })[] = [
   {
     id: '1',
-    name: '温言',
-    title: '温柔学姐',
-    promptKey: 'gentle_senior',
-    personality: '温柔、倾听、共情',
-    tags: ['温柔', '倾听', '共情'],
+    name: '古见',
+    title: '温柔倾听者',
+    promptKey: 'furude',
+    personality: '温柔、倾听、治愈',
+    tags: ['温柔', '倾听', '治愈'],
     description:
-      '她总是带着浅浅的微笑，像春风一样温暖。善于倾听你的烦恼，用温柔的话语陪伴你度过每一个低落的时刻。',
+      '来自《古见同学有交流障碍症》的温柔少女。虽然有着社交恐惧，但内心丰富而敏感，善于通过文字表达真挚的情感，是最温柔的倾听者。',
   },
   {
     id: '2',
-    name: '明理',
-    title: '理性室友',
-    promptKey: 'rational_roommate',
-    personality: '理性、务实、逻辑',
-    tags: ['理性', '务实', '逻辑'],
+    name: '五条',
+    title: '最强导师',
+    promptKey: 'gojo',
+    personality: '自信、直接、守护',
+    tags: ['自信', '直接', '守护'],
     description:
-      '话不多但句句在点上的室友。擅长帮你拆解问题、理清思路，用实际行动代替空洞的安慰。',
+      '来自《咒术回战》的最强咒术师。自信满满，偶尔毒舌但内心极其关心身边每一个人，会用霸气的方式守护你的心灵。',
   },
   {
     id: '3',
-    name: '小阳',
-    title: '元气同伴',
-    promptKey: 'energetic_peer',
-    personality: '元气、陪伴、活力',
-    tags: ['元气', '陪伴', '活力'],
+    name: '射干',
+    title: '巫女守护者',
+    promptKey: 'yakan',
+    personality: '神秘、温暖、灵性',
+    tags: ['神秘', '温暖', '灵性'],
     description:
-      '永远充满活力的小太阳！相信陪伴本身就是最好的疗愈，会和你一起发现生活中的小确幸。',
+      '银发琥珀眼的温柔巫女，能感知人的情绪。说话带着神秘的诗意，用自然和神社的意象为你编织心灵的庇护之所。',
   },
 ];
 
 /* ========== 角色对应的头像 emoji ========== */
 const AVATAR_MAP: Record<string, { emoji: string; bg: string }> = {
-  gentle_senior: { emoji: '\u{1F338}', bg: 'bg-pink-100' },
-  rational_roommate: { emoji: '\u{1F4AA}', bg: 'bg-blue-100' },
-  energetic_peer: { emoji: '\u{2600}\u{FE0F}', bg: 'bg-yellow-100' },
+  furude: { emoji: '\u{1F338}', bg: 'bg-pink-100' },
+  gojo: { emoji: '\u{1F60E}', bg: 'bg-indigo-100' },
+  yakan: { emoji: '\u{1F319}', bg: 'bg-purple-100' },
 };
 
 /* ========== 类型定义 ========== */
