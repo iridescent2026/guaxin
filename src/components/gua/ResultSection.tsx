@@ -4,7 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { SectionTitle } from '@/components';
 import { MessageCircle, Lightbulb, Rocket, Heart } from 'lucide-react';
 
-export function ResultSection() {
+interface ResultSectionProps {
+  isCompleted: boolean;
+}
+
+export function ResultSection({ isCompleted }: ResultSectionProps) {
+  if (!isCompleted) return null;
+
   return (
     <section>
       <SectionTitle title="AI 心理解读" description="结合卦象与你的问题，获得温暖的心理陪伴建议" />

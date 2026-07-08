@@ -1,13 +1,31 @@
 import { useState } from 'react';
 import { MainLayout, PageTitle } from '@/components';
-import { Guide, StickArea, HexagramDisplay, InsightCard, ResultSection } from '@/components/gua';
+import { QuestionInput, Guide, StickArea, HexagramDisplay, InsightCard, ResultSection } from '@/components/gua';
 
 export default function GuaPage() {
-  // 静态数据展示
-  const [currentStep] = useState(0);
-  const [lines] = useState<(number | null)[]>([null, null, null, null, null, null]);
-  const [isStarted] = useState(false);
-  const [isCompleted] = useState(false);
+  // 统一管理状态
+  const [question, setQuestion] = useState('');
+  const [currentStep, setCurrentStep] = useState(0);
+  const [lines, setLines] = useState<(number | null)[]>([null, null, null, null, null, null]);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  // 按钮回调
+  const handleStart = () => {
+    setIsStarted(true);
+  };
+
+  const handleStop = () => {
+    setIsStarted(false);
+  };
+
+  const handleContinue = () => {
+    // TODO: 后续实现真正的摇卦逻辑
+  };
+
+  const handleViewResult = () => {
+    // TODO: 后续实现查看结果
+  };
 
   return (
     <MainLayout>
@@ -17,11 +35,24 @@ export default function GuaPage() {
       />
 
       <div className="space-y-8">
+        <QuestionInput
+          question={question}
+          onChange={setQuestion}
+          onStart={handleStart}
+        />
         <Guide />
         <StickArea />
         <HexagramDisplay currentStep={currentStep} lines={lines} />
-        <InsightCard isStarted={isStarted} currentStep={currentStep} isCompleted={isCompleted} />
-        <ResultSection />
+        <InsightCard
+          currentStep={currentStep}
+          isStarted={isStarted}
+          isCompleted={isCompleted}
+          onStart={handleStart}
+          onStop={handleStop}
+          onContinue={handleContinue}
+          onViewResult={handleViewResult}
+        />
+        <ResultSection isCompleted={isCompleted} />
       </div>
     </MainLayout>
   );

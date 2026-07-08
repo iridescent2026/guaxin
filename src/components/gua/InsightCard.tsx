@@ -2,15 +2,27 @@
 
 import { Card, CardContent, Button } from '@/components';
 import { SectionTitle } from '@/components';
-import { Play, Square, ChevronRight, Sparkles, Clock } from 'lucide-react';
+import { Clock } from 'lucide-react';
 
 interface InsightCardProps {
-  isStarted: boolean;
   currentStep: number;
+  isStarted: boolean;
   isCompleted: boolean;
+  onStart: () => void;
+  onStop: () => void;
+  onContinue: () => void;
+  onViewResult: () => void;
 }
 
-export function InsightCard({ isStarted, currentStep, isCompleted }: InsightCardProps) {
+export function InsightCard({
+  currentStep,
+  isStarted,
+  isCompleted,
+  onStart,
+  onStop,
+  onContinue,
+  onViewResult,
+}: InsightCardProps) {
   // 状态提示
   const getStatusText = () => {
     if (isCompleted) return '六爻完成，正在等待 AI 分析...';
@@ -19,15 +31,13 @@ export function InsightCard({ isStarted, currentStep, isCompleted }: InsightCard
     return '等待开始摇卦';
   };
 
-  // 获取按钮文案
-  const getPrimaryButton = () => {
-    if (isCompleted) return { label: '查看 AI 心理解读', icon: Sparkles, disabled: true };
-    if (isStarted) return { label: '结束本次摇卦', icon: Square, disabled: false };
-    if (currentStep > 0) return { label: '继续下一爻', icon: ChevronRight, disabled: false };
-    return { label: '开始摇卦', icon: Play, disabled: false };
+  // 提示文字
+  const getHintText = () => {
+    if (isCompleted) return '六爻已全部完成，点击上方按钮查看 AI 分析结果';
+    if (isStarted) return '请在心中默念问题，想好答案后点击「结束本次摇卦」';
+    if (currentStep > 0) return '你已经完成了部分摇卦，可以继续下一爻或重新开始';
+    return '点击「开始摇卦」按钮，开始你的传统文化体验之旅';
   };
-
-  const primaryBtn = getPrimaryButton();
 
   return (
     <section>
@@ -46,21 +56,28 @@ export function InsightCard({ isStarted, currentStep, isCompleted }: InsightCard
 
             {/* 控制按钮 */}
             <div className="flex gap-4">
-              <Button size="lg" className="gap-2" disabled={primaryBtn.disabled}>
-                <primaryBtn.icon className="h-4 w-4" />
-                {primaryBtn.label}
-              </Button>
+              {isCompleted ? (
+                <Button size="lg" onClick={onViewResult}>
+                  查看 AI 心理解读
+                </Button>
+              ) : isStarted ? (
+                <Button size="lg" variant="destructive" onClick={onStop}>
+                  结束本次摇卦
+                </Button>
+              ) : currentStep > 0 ? (
+                <Button size="lg" onClick={onContinue}>
+                  继续下一爻
+                </Button>
+              ) : (
+                <Button size="lg" onClick={onStart}>
+                  开始摇卦
+                </Button>
+              )}
             </div>
 
             {/* 提示文字 */}
             <p className="text-sm text-muted-foreground text-center max-w-md">
-              {isCompleted
-                ? '六爻已全部完成，点击上方按钮查看 AI 分析结果'
-                : isStarted
-                ? '请在心中默念问题，想好答案后点击「结束本次摇卦」'
-                : currentStep > 0
-                ? '你已经完成了部分摇卦，可以继续下一爻或重新开始'
-                : '点击「开始摇卦」按钮，开始你的传统文化体验之旅'}
+              {getHintText()}
             </p>
           </div>
         </CardContent>
