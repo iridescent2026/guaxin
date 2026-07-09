@@ -32,9 +32,10 @@ export default async function handler(
     const systemPrompt = GUA_SYSTEM_PROMPT;
     const userPrompt = buildGuaUserPrompt(lines, question, mood);
 
-    // 调用 AI
+    // 调用 AI（限制token避免超时）
     const aiResponse = await callLLM(systemPrompt, userPrompt, {
       temperature: 0.7,
+      maxTokens: 1200,
       jsonMode: true,
     });
 
@@ -45,6 +46,7 @@ export default async function handler(
       interpretation = {
         guaName: parsed.guaName || '',
         guaMeaning: parsed.guaMeaning || '',
+        funInterpretation: parsed.funInterpretation || '',
         interpretation: parsed.interpretation || '',
         psychologyAdvice: parsed.psychologyAdvice || '',
         actionAdvice: parsed.actionAdvice || '',

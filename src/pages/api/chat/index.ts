@@ -78,13 +78,13 @@ export default async function handler(
       content: h.content,
     }));
 
-    // 调用 AI
+    // 调用 AI（限制token避免超时）
     const aiReply = await callLLM(
       systemPrompt,
       cleanMessage,
       {
         temperature: 0.8,
-        maxTokens: 2048,
+        maxTokens: 600,
       }
     );
 

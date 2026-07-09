@@ -29,7 +29,7 @@ export async function callLLM(
     jsonMode?: boolean;
   } = {}
 ): Promise<string> {
-  const { temperature = 0.7, maxTokens = 2048, jsonMode = false } = options;
+  const { temperature = 0.7, maxTokens = 1024, jsonMode = false } = options;
 
   const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [
     { role: 'system', content: systemPrompt },
