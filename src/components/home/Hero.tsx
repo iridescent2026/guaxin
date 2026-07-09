@@ -1,7 +1,6 @@
 'use client';
 
-import { Sparkles, ArrowRight } from 'lucide-react';
-import { Button } from '@/components';
+import { Sparkles } from 'lucide-react';
 import { APP_NAME, APP_TAGLINE } from '@/constants';
 
 export function Hero() {
@@ -24,14 +23,6 @@ export function Hero() {
         <p className="mt-6 text-lg text-muted-foreground sm:text-xl">
           {APP_TAGLINE}
         </p>
-
-        {/* CTA Button */}
-        <div className="mt-10">
-          <Button size="lg" className="gap-2">
-            开始体验
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
     </section>
   );
