@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -22,12 +22,12 @@ model User {
 model GuaRecord {
   id             String   @id @default(uuid())
   userId         String?  @map("user_id")
-  question       String
+  question       String   @db.VarChar(200)
   mood           String
-  lines          String   // JSON string
+  lines          String   @db.Text
   guaName        String   @map("gua_name")
   guaCode        String   @map("gua_code")
-  interpretation String?
+  interpretation String?  @db.Text
   createdAt      DateTime @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id])
@@ -39,13 +39,14 @@ model ChatMessage {
   id        String   @id @default(uuid())
   userId    String?  @map("user_id")
   roleId    String   @map("role_id")
-  content   String
+  content   String   @db.Text
   sender    String
   isCrisis  Boolean  @default(false) @map("is_crisis")
   createdAt DateTime @default(now()) @map("created_at")
 
   user User? @relation(fields: [userId], references: [id])
 
+  @@index([userId, roleId])
   @@map("chat_messages")
 }
 
@@ -54,9 +55,9 @@ model Character {
   name        String
   title       String
   avatar      String?
-  personality String
+  personality String   @db.Text
   promptKey   String   @unique @map("prompt_key")
-  tags        String
+  tags        String   @db.Text
   sortOrder   Int      @default(0) @map("sort_order")
   createdAt   DateTime @default(now()) @map("created_at")
 
@@ -70,9 +71,10 @@ model Video {
   videoUrl  String   @map("video_url")
   platform  String
   category  String
-  tags      String
+  tags      String   @db.Text
   sortOrder Int      @default(0) @map("sort_order")
   createdAt DateTime @default(now()) @map("created_at")
 
+  @@index([category])
   @@map("videos")
 }
