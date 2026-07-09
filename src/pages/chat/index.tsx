@@ -3,57 +3,39 @@ import { MainLayout } from '@/components';
 import { CharacterGrid, CharacterHeader, ChatWindow } from '@/components/chat';
 import type { Character as ApiCharacter } from '@/types';
 
-/** 图片生成域名（与 next.config.js images.remotePatterns 保持一致） */
-const IMG_API = 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image';
+/**
+ * 人物视觉资源（本地静态文件 → 存于 public/images/characters/）
+ * 每个角色 2 张：avatar 头像 + cover 卡片背景图
+ * 均为真实相关人物/壁纸下载，避免 AI 占位图服务返回同一张占位图。
+ */
+const CHAR_IMG_BASE = '/images/characters';
 
-function imgUrl(prompt: string, size: 'square' | 'landscape_16_9' = 'square'): string {
-  return `${IMG_API}?prompt=${encodeURIComponent(prompt)}&image_size=${size}`;
-}
-
-/** 按 promptKey 的人设生成：头像(square) + 卡片背景(landscape_16_9) + 渐变色 */
+/** 按 promptKey 的人设返回：头像 + 卡片背景 + 渐变色 */
 function promptKeyVisual(promptKey: string): {
   avatar: string;
   coverImage: string;
   gradient: string;
 } {
   if (promptKey === 'furude') {
-    // 古见：温柔倾听者，粉樱花
+    // 古见硝子（古見さんは、コミュ症です。）—— 温柔倾听者
     return {
-      avatar: imgUrl(
-        '二次元美少女头像，黑长直齐耳黑发，温柔安静的表情，粉色樱花背景，细腻日系插画风格，正面胸像，柔和打光，高质量',
-        'square',
-      ),
-      coverImage: imgUrl(
-        '日系二次元场景插画，校园天台粉樱花漫天飘舞，一位黑长发少女的背影，温柔阳光透过花瓣，治愈温暖的粉色调，横屏 16:9，高质量 cinematic',
-        'landscape_16_9',
-      ),
+      avatar: `${CHAR_IMG_BASE}/furude-avatar.jpg`,
+      coverImage: `${CHAR_IMG_BASE}/furude-cover.jpg`,
       gradient: 'bg-gradient-to-br from-pink-400 via-rose-400 to-pink-500',
     };
   }
   if (promptKey === 'gojo') {
-    // 五条：最强导师，蓝紫霓虹
+    // 五条悟（呪術廻戦 / Jujutsu Kaisen）—— 最强导师
     return {
-      avatar: imgUrl(
-        '二次元少年头像，银白色短发，黑色眼罩遮住双眼，自信淡然的微笑，蓝紫色魔法光晕背景，精致插画风格，正面胸像，高质量',
-        'square',
-      ),
-      coverImage: imgUrl(
-        '二次元场景插画，现代都市夜晚天际线，蓝紫色霓虹光辉流动，一位银发黑衣少年背影站在高楼眺望，酷炫魔法氛围，横屏 16:9，cinematic 高质量',
-        'landscape_16_9',
-      ),
+      avatar: `${CHAR_IMG_BASE}/gojo-avatar.jpg`,
+      coverImage: `${CHAR_IMG_BASE}/gojo-cover.jpg`,
       gradient: 'bg-gradient-to-br from-blue-400 via-indigo-500 to-purple-600',
     };
   }
-  // 射干：原创温柔系巫女，紫霞神社
+  // yakan / 射干：原创温柔系巫女（人设：銀白長髪 + 琥珀瞳 + 神社鳥居紫陽花）
   return {
-    avatar: imgUrl(
-      '二次元少女头像，银白色长发编成低马尾，琥珀色眼眸，红白巫女服与紫藤色发带，温柔治愈的微笑，紫藤花与夕阳光辉背景，精致插画风格，正面胸像，高质量',
-      'square',
-    ),
-    coverImage: imgUrl(
-      '二次元场景插画，日式神社朱红鸟居，黄昏紫色晚霞与紫藤花飘落，银白色长发巫女的背影静静站在石阶上，神圣治愈氛围，紫色调，横屏 16:9，cinematic 高质量',
-      'landscape_16_9',
-    ),
+    avatar: `${CHAR_IMG_BASE}/yakan-avatar.jpg`,
+    coverImage: `${CHAR_IMG_BASE}/yakan-cover.jpg`,
     gradient: 'bg-gradient-to-br from-purple-400 via-violet-500 to-indigo-600',
   };
 }
