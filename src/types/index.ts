@@ -1,3 +1,33 @@
+﻿import type { BaguaArchetype } from '@/lib/bagua-archetypes';
+
+// ==================== 周易三思 ====================
+export type Category = 'study' | 'relationship' | 'love' | 'future' | 'emotion' | 'growth' | 'daily';
+export type Duration = 'recent' | 'ongoing' | 'recurring';
+export type ThoughtStep = 'first' | 'second' | 'third';
+
+export interface SubCategory {
+  value: string;
+  label: string;
+  prompt: string;
+}
+
+export interface CategoryConfig {
+  value: Category;
+  label: string;
+  emoji: string;
+  guide: string;
+  subCategories: SubCategory[];
+}
+
+export interface IChingQuote {
+  id: string;
+  guaName: string;
+  original: string;
+  translation: string;
+  insight: string;
+  categories: Category[];
+}
+
 // ==================== 基础响应 ====================
 export interface ApiResponse<T = unknown> {
   code: number;
@@ -17,7 +47,7 @@ export interface User {
 export type YaoValue = 6 | 7 | 8 | 9;
 
 export interface YaoLine {
-  position: number; // 1-6
+  position: number;
   value: YaoValue;
 }
 
@@ -154,4 +184,30 @@ export interface ChatRequest {
 export interface CreateUserRequest {
   nickname: string;
   avatar?: string;
+}
+
+// ==================== 三思记录 ====================
+export interface ThoughtSession {
+  category: Category | null;
+  subCategory: string | null;
+  duration: Duration | null;
+  mood: Mood | null;
+  quote: IChingQuote | null;
+  reflection: string;
+}
+
+export interface ThoughtRecord {
+  id: string;
+  timestamp: number;
+  session: ThoughtSession;
+}
+
+// ==================== 八卦意象探索 ====================
+export interface BaguaReading {
+  archetype: BaguaArchetype;
+  psychologicalAnalysis: string;  // 心理投射分析
+  philosophyInsight: string;       // 周易哲学启示
+  growthAdvice: string;            // 成长建议
+  actionSteps: string;             // 具体行动步骤
+  crisisFlag: boolean;
 }

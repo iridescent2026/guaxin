@@ -25,7 +25,7 @@ export function Introduction() {
                 心易陪伴是一个专为大学生设计的心理健康陪伴平台。在这里，你可以：
               </p>
               <ul className="list-inside list-disc space-y-2">
-                <li>通过周易摇卦获得趣味的心理指引</li>
+                <li>通过周易八卦意象，探索你当下的心理状态</li>
                 <li>与 AI 角色进行温暖的对话倾诉</li>
                 <li>观看精选的解压视频放松身心</li>
               </ul>

@@ -10,7 +10,7 @@ import { APP_NAME } from '@/constants';
 
 const NAV_ITEMS = [
   { href: '/', label: '首页' },
-  { href: '/gua', label: '周易摇卦' },
+  { href: '/gua', label: '意象探索' },
   { href: '/chat', label: 'AI陪伴' },
   { href: '/videos', label: '娱乐放松' },
 ];

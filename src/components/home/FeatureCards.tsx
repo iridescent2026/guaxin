@@ -9,8 +9,8 @@ const FEATURES = [
   {
     href: '/gua',
     icon: TrendingUp,
-    title: '周易摇卦',
-    description: '借助传统文化帮助表达内心感受，AI 为你提供温暖的心理陪伴。',
+    title: '意象探索',
+    description: '通过周易八卦意象，探索你当下的心理状态，获得心理学视角的成长指引。',
     color: 'text-teal-500',
     bgColor: 'bg-teal-50 dark:bg-teal-950/30',
   },
